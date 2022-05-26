@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+<h3>{{request.user.username}}</h3>
+{% else %}
+<h3>Не авторизован</h3>
+{% endif %}
+<hr>
+
+
+<div id="app_update_operation">
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{form_data.type_pay}}" id="type_pay">
+        <input type="hidden" value="{{form_data.instance}}" id="instance">
+
+        <div class="mb-1">{{form.value}}</div>
+        <div class="mb-1">{{form.description}}</div>
+
+        {% verbatim %}
+        <div class="btn-group btn-group-toggle mb-1" data-toggle="buttons">
+            <label class="btn btn-outline-primary active">
+                <input type="radio" value="0" name="type_pay" id="type_pay_0" v-model="state_radio"
+                       v-on:change="radio_changed"> Расход
+            </label>
+            <label class="btn btn-outline-primary">
+                <input type="radio" value="1" name="type_pay" id="type_pay_1" v-model="state_radio"
+                       v-on:change="radio_changed"> Доход
+            </label>
+        </div>
+
+        <select name="category" id="id_category" class="custom-select">
+            <template v-for="option in options">
+                <option v-if="option.id==instance" selected="selected" v-bind:value="option.id">{{option.name}}</option>
+                <option v-else v-bind:value="option.id">{{option.name}}</option>
+            </template>
+        </select>
+        {% endverbatim %}
+
+        <input type="submit" class="btn btn-outline-primary mt-2">
+
+        {% for error in form.errors.values %}
+            {{error}}
+        {% endfor %}
+    </form>
+</div>
+{% endblock content%}

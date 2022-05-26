@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои финансы | {{block.super}}{% endblock title %}
+
+{% block content %}
+
+{% include 'budget/include/operation_tabs.html' %}
+
+{% verbatim %}
+<div id="app-operations">
+    <div class="d-flex">
+        <span class="display-4 my-3" v-bind:class="{'text-success': total>0, 'text-danger':total<0}">{{total.toFixed(2)}}</span>
+    </div>
+    <div class="d-flex align-items-center">
+        <div class="">
+            <input
+                    type="month"
+                    v-model="current_month"
+                    v-on:change="month_changed()"
+                    class="form-control"
+                    onchange="">
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-3">
+            {% endverbatim %}
+            <form method="get">
+                {% for category in categories %}
+                    <li style="list-style-type: none; padding-left: 0;">
+                        <input type="checkbox" name="category" value="{{category.id}}" id="category{{category.id}}">
+                        <label class="m-0" for="category{{category.id}}">{{category.name}}</label>
+                    </li>
+                {% endfor %}
+                <input type="submit" value="Найти" class="btn btn-block btn-sm btn-outline-primary">
+            </form>
+            {% verbatim %}
+        </div>
+
+
+        <div class="col-md-9">
+            <h5 class="bg-info p-2 text-dark my-2">operation.date</h5>
+            <div v-for="(operation, index) in operations">
+                <div class="shadow-sm mt-2 bg-light div-hover border">
+                    <div class="container py-1">
+                        <a class="close" v-on:click="delete_operation(operation.id, index)">
+                            <i class="bi bi-x-circle red-hover"></i></a>
+                        <a class="close mr-1">
+                            <i class="bi bi-pencil"></i></a>
+
+                        <h4 class="text-success"
+                            v-bind:class="[operation.category__type_pay ? 'text-success' : 'text-danger',]">
+                            {{operation.value}}
+                        </h4>
+                        <p>{{operation.description?operation.description:operation.category__name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="!operations.length">
+        <hr>
+        <h3 class="font-weight-light">Операции за выбранный месяц отсутствуют</h3>
+    </div>
+
+</div>
+{% endverbatim %}
+{% endblock content%}

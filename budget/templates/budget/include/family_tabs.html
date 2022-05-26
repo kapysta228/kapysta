@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs">
+    {% url 'b-family' as family_url %}
+    {% url 'b-family-operation' as operation_url %}
+    {% url 'b-family-chart' as chart_url %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.path == family_url %}active{% endif %}" href="{{family_url}}">
+            Моя семья
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {%if request.path == operation_url %}active{% endif %}"
+           href="{{operation_url}}">
+            Расходы / Доходы
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {%if request.path == chart_url %}active{% endif %}"
+           href="{{chart_url}}">
+            Графическая сводка
+        </a>
+    </li>
+</ul>

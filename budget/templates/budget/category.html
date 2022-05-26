@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои категории | {{block.super}}{% endblock title %}
+
+{% block content %}
+
+{% include 'budget/include/operation_tabs.html' %}
+
+<div class="container row mt-3" id="app_category">
+    <div class="col-9 col-md-3 ml-md-auto mb-2">
+        <h4>Мои категории</h4>
+        <ul class="list-group">
+            {% for category in category_list %}
+            <a href="#!"
+               class="list-group-item list-group-item-action {% if category.type_pay%}text-success{%else%}text-danger{%endif%}">{{category}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                        v-on:click="delete_category({{category.id}}, '{{category.name}}')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </a>
+            {% empty %}
+                <p class="text-muted">У Вас нет категорий</p>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-9 col-md-6 mr-md-auto  v-divider">
+        <h4>Добавить новую категорию</h4>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-1">{{field}}</div>
+            {% endfor %}
+
+            {% for error in form.errors.values %}
+            {{error}}
+            {% endfor %}
+            {{form.non_field_errors}}
+            <input type="submit" value="Сохранить" class="btn btn-primary btn-block">
+        </form>
+    </div>
+
+
+</div>
+{% endblock content %}

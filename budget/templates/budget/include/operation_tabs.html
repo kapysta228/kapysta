@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs">
+    {% url 'b-list-operation' as operation_url %}
+    {% url 'b-chart' as chart_url %}
+    {% url 'b-category' as category_url %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.path == operation_url %}active{% endif %}" href="{{operation_url}}">Расходы / Доходы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.path == chart_url %}active{% endif %}" href="{{chart_url}}">Графическая сводка</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.path == category_url %}active{% endif %}" href="{{category_url}}">Категории</a>
+    </li>
+</ul>

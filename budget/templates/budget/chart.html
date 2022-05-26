@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Графическая сводка | {{block.super}}{% endblock title %}
+
+{% block content %}
+
+{% include 'budget/include/operation_tabs.html' %}
+
+<div id="app-statistic">
+    <div class="mt-3">
+        <div class="btn-group btn-group-toggle mb-1" data-toggle="buttons">
+            <label class="btn btn-outline-primary active">
+                <input type="radio" value="0" name="type_pay" id="type_pay_0" v-model="state_radio"
+                       v-on:change="radio_changed"
+                > Расход
+            </label>
+            <label class="btn btn-outline-primary">
+                <input type="radio" value="1" name="type_pay" id="type_pay_1" v-model="state_radio"
+                       v-on:change="radio_changed"
+                > Доход
+            </label>
+        </div>
+
+        <div class="btn-group btn-group-toggle mb-1" data-toggle="buttons">
+            <label class="btn btn-outline-primary active">
+                <input type="radio" value="0" name="type_date" id="type_date_0" v-model="state_calendar"
+                       v-on:change="type_date_changed">Месяц
+            </label>
+            <label class="btn btn-outline-primary">
+                <input type="radio" value="1" name="type_date" id="type_date_1" v-model="state_calendar"
+                       v-on:change="type_date_changed">Год
+            </label>
+        </div>
+
+        <div class="mt-1">
+            <input v-if="state_calendar==1"
+                   type="number"
+                   min="1970"
+                   max="2100"
+                   v-model='calendar_date'
+                   class="form-control"
+                   id='date-by-year'
+                   v-on:change="date_change()">
+            <input v-if="state_calendar==0"
+                   type="month"
+                   v-model='calendar_date'
+                   id="date-by-year-month"
+                   class="form-control"
+                   v-on:change="date_change()">
+        </div>
+
+        <h3 class="font-weight-light" v-if='data_is_empty'>Операции за выбранную дату отсутствуют</h3>
+        <canvas id="chart" height="100%" class="mt-3">
+
+        </canvas>
+    </div>
+</div>
+{% endblock content %}

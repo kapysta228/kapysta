@@ -1,0 +1,30 @@
+<div class="shadow-sm mt-2 bg-light div-hover border">
+    <div class="container py-1">
+        {% if request.user == operation.user %}
+        <div>
+            <a href="#" onclick="delete_operation({{operation.id}})" class="close">
+                <i class="bi bi-x-circle red-hover"></i></a>
+
+            <a class="close mr-1" href="{% url 'b-operation-update' operation.id %}">
+                <i class="bi bi-pencil"></i></a>
+        </div>
+        {% endif %}
+
+        <div class="d-inline-block">
+            {% if operation.category.type_pay %}
+            <h4 class="text-success mb-0">{{operation.value}}</h4>
+            {% else %}
+            <h4 class="text-danger mb-0">{{operation.value}}</h4>
+            {% endif %}
+        </div>
+        <span> / </span>
+        <div class="d-inline-block">
+            <p class="mb-0"> {{operation.description|default:operation.category.name}}</p>
+        </div>
+        <span> / </span>
+        <div class="d-inline-block">
+            <h6 class="font-weight-normal mb-0">{{operation.user}}</h6>
+        </div>
+
+    </div>
+</div>
